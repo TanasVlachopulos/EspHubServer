@@ -1,3 +1,6 @@
 from django.db import models
+from DataAccess import DBA
 
-# Create your models here.
+
+class Devices():
+    pass

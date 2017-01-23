@@ -8,8 +8,8 @@ class DataCollector(object):
     def __init__(self, database_path, config_file):
         self.db = DatabaseAccess(database_path)
         self.topics = {"esp_hub/device/hello": self.new_device_callback,
-          "esp_hub/device/+/telemetry": self.telemetry_callback,
-          "esp_hub/device/+/data": self.data_callback}
+                       "esp_hub/device/+/telemetry": self.telemetry_callback,
+                       "esp_hub/device/+/data": self.data_callback}
 
         self.mqtt = MessageHandler('192.168.1.1')
         self.mqtt.register_topics(self.topics)
