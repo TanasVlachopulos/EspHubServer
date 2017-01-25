@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ESP Hub</title>
-</head>
-<body>
-    {{ msg }}
-    <ul>
-    {% for device in devices %}
-        <li>{{ device.name }} {{ device.id }} {{ device.provided_func }} <a href="{% url 'main:device_detail' device.id %}">detail</a> </li>
-    {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "main/base.html" %}
+
+{% block title %}ESP Hub devices{% endblock %}
+
+{% block content %}
+    <h1>{{ msg }}</h1>
+    <div class="collection">
+        {% for device in devices %}
+            {% include "main/line.html" with name=device.name id=device.id provided_func=device.provided_func %}
+        {% endfor %}
+    </div>
+{% endblock %}

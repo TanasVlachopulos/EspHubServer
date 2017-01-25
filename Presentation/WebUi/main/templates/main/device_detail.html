@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {{ device.name }}
-</body>
-</html>
+{% extends "main/base.html" %}
+
+{% block title %}Device detail{% endblock %}
+
+{% block content %}
+    <h3>{{ device.name }}</h3>
+{% endblock %}
