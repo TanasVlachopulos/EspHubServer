@@ -6,5 +6,10 @@
 </head>
 <body>
     {{ msg }}
+    <ul>
+    {% for device in devices %}
+        <li>{{ device.name }} {{ device.id }} {{ device.provided_func }} <a href="{% url 'main:device_detail' device.id %}">detail</a> </li>
+    {% endfor %}
+    </ul>
 </body>
 </html>

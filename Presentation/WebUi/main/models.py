@@ -1,6 +1,24 @@
 from django.db import models
-from DataAccess import DBA
+
+from DataAccess import DBA, DAO
 
 
-class Devices():
-    pass
+class Device(DAO.Device):
+
+    @staticmethod
+    def get_all():
+        db = DBA.Dba("test.db")
+        return db.get_devices()
+
+    @staticmethod
+    def get(device_id):
+        db = DBA.Dba("test.db")
+        return db.get_device(device_id)
+
+
+class Record(DAO.Record):
+
+    @staticmethod
+    def get_all(device_id):
+        db = DBA.Dba("test.db")
+        return db.get_record_from_device(device_id)
