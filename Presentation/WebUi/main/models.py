@@ -4,7 +4,6 @@ from DataAccess import DBA, DAO
 
 
 class Device(DAO.Device):
-
     @staticmethod
     def get_all():
         db = DBA.Dba("test.db")
