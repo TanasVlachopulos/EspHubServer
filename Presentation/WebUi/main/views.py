@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-# from DataAccess import DBA, DAO
+# from DataAccess_old import DBA, DAO
 import importlib.util
 from .models import Device, Record
 
@@ -19,8 +19,9 @@ def index(request):
 
 def device_detail(request, device_id):
     device = Device.get(device_id)
+    records = Record.get_all(device_id)
 
     response = {'device': device,
-                'values': [[1, 'emp', 23], [2, 'temp', 24], [3, 'temp', 23]]
+                'values': records
                 }
     return render(request, 'main/device_detail.html', response)

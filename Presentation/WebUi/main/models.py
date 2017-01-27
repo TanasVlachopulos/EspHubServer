@@ -1,7 +1,7 @@
 from django.db import models
 
+# from Presentation.WebUi.DataAccess import DBA, DAO
 from DataAccess import DBA, DAO
-
 
 class Device(DAO.Device):
     @staticmethod

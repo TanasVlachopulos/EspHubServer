@@ -10,9 +10,9 @@
     <tbody>
     {% for row in rows %}
         <tr>
-            {% for item in row %}
-                <td>{{ item }}</td>
-            {% endfor %}
+            <td>{{ row.time }}</td>
+            <td>{{ row.type }}</td>
+            <td>{{ row.value }}</td>
         </tr>
     {% endfor %}
     </tbody>

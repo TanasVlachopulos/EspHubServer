@@ -5,7 +5,7 @@
 """
 
 import sqlite3 as sql
-import DataAccess.DAO as DAO
+import DataAccess_old.DAO as DAO
 import sys
 
 
