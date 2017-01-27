@@ -101,7 +101,7 @@ class _Dba(object):
             cur.execute("SELECT * FROM Records WHERE Device_id=:Device_id",
                         {"Device_id": device_id})
             rows = cur.fetchall()
-            return [DAO.Record(x['Device_id'], x['Time'], x['Type'], x['Value']) for x in rows]
+            return [DAO.Record(x['Device_id'], sql.datetime.datetime.fromtimestamp(x['Time']), x['Type'], x['Value']) for x in rows]
         except sql.Error as e:
             print(e.args[0])
             return None
