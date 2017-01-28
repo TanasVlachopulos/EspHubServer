@@ -1,7 +1,8 @@
 import json
 
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from .models import Device, Record
 from DataAccess import DBA, DAO
 
@@ -10,8 +11,6 @@ def index(request):
     devices = Device.get_all()
 
     test = Device('123', 'test', 'temp, hum')
-    print("test")
-    print(test.provided_func)
 
     response = {'msg': 'Records',
                 'devices': devices,
@@ -37,6 +36,19 @@ def waiting_devices(request):
                 'devices': devices}
     return render(request, 'main/waiting_devices.html', response)
 
+
+def verify_device(request, device_id):
+    db = DBA.Dba("test.db")
+    device = db.get_waiting_device(device_id)  # get waiting device for transfer to permanent devices table
+    db.remove_waiting_device(device_id)  # remove device from waiting devices table
+    # TODO send message to device
+
+    print(device_id)
+    print(device)
+    device.name = request.POST['device-name']
+    db.insert_device(device)
+
+    return HttpResponseRedirect(reverse('main:waiting_devices'))
 
 def waiting_devices_api(request):
     db = DBA.Dba("test.db")

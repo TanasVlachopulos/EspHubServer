@@ -45,7 +45,7 @@ class _Dba(object):
         finally:
             con.close()
 
-    def remove_waiting_device(self, device):
+    def remove_waiting_device(self, device_id):
         """
         remove device from waiting list
         :param device: DAO device object
@@ -54,7 +54,7 @@ class _Dba(object):
         try:
             cur = con.cursor()
             cur.execute("DELETE FROM WaitingDevices WHERE Device_id=:Device_id",
-                        {'Device_id': device.id})
+                        {'Device_id': device_id})
             con.commit()
         except sql.Error as e:
             print(e.args[0])
@@ -78,6 +78,26 @@ class _Dba(object):
         finally:
             con.close()
 
+    def get_waiting_device(self, device_id):
+        """
+        get specific waiting device
+        :param device_id: id of device
+        :return: single DAO device object
+        """
+        con = self._get_connection()
+        try:
+            cur = con.cursor()
+            cur.row_factory = sql.Row
+            cur.execute("SELECT * FROM WaitingDevices WHERE Device_id=:Device_id", {'Device_id': device_id})
+            row = (cur.fetchall())[0]  # get first record
+            return DAO.Device(row['Device_id'], row['Name'], row['Provided_func'])
+        except sql.Error as e:
+            print(e.args[0])
+            return None
+        except IndexError:  # when does not exist any record with given id
+            return None
+        finally:
+            con.close()
 
     """ Get connection object """
     def _get_connection(self):

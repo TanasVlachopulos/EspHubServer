@@ -1,12 +1,12 @@
 <li class="collection-item avatar">
     {% load static %}
     <img src="{% static 'main/images/ESP-12.jpg' %}" alt="" class="circle">
-    <span class="title">{{ name }}</span>
+    <span class="title">Name: {{ name }}</span>
     <p>ID: {{ id }} <br>
         Abilities: {{ provided_func }}
     </p>
     <div class="secondary-content">
-        <a class="waves-effect waves-circle waves-light btn-floating secondary-content" href="base.html">
+        <a class="waves-effect waves-circle waves-light btn-floating secondary-content" href="#modal-{{ id }}">
             <i class="material-icons">add</i>
         </a>
     </div>

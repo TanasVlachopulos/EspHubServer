@@ -3,10 +3,19 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
+    <h3>{{ title }}</h3>
     <ul class="collection">
         {% for device in devices %}
+            {% include "main/waiting_device_modal.html" with id=device.id name=device.name %}
             {% include "main/waiting_devices_line.html" with name=device.name id=device.id provided_func=device.provided_func|join:', ' %}
         {% endfor %}
     </ul>
+
+    <script>
+        // init modal windows
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+    </script>
+
 {% endblock %}

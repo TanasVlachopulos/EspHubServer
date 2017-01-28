@@ -1,10 +1,22 @@
-  <!-- Modal Structure -->
-  <div id="modal1" class="modal modal-fixed-footer">
+<!-- Modal Structure -->
+<div id="modal-{{ id }}" class="modal">
     <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
+        <h5>Verify device {{ id }}</h5>
+        <br>
+        <p>
+        <form class="col s3" action="{% url 'main:verify_device' id %}" method="post" id="form-{{ id }}">
+            {% csrf_token %}
+            <div class="input-field col s1">
+                <input value="{{ name }}" id="device-name" name="device-name" type="text" class="validate">
+                <label for="device-name">Device name</label>
+            </div>
+        </form>
+        </p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+        <a class="waves-effect waves-light btn" onclick="$('#form-{{ id }}').submit();">
+            <i class="material-icons right">send</i>
+            Add device
+        </a>
     </div>
-  </div>
+</div>
