@@ -9,16 +9,13 @@ from MessageHandler import MessageHandler
 
 class DataCollector(object):
     def __init__(self, database_path, config_file):
-        self.db = DBA.Dba('test.db')
+        self.db = DBA.Dba('test.db') # TODO replace with config
         self.topics = {"esp_hub/device/hello": self.new_device_callback,
                        "esp_hub/device/+/telemetry": self.telemetry_callback,
                        "esp_hub/device/+/data": self.data_callback}
 
-        self.mqtt = MessageHandler('192.168.1.1')
+        self.mqtt = MessageHandler('192.168.1.1') # TODO replace with config
         self.mqtt.register_topics(self.topics)
-
-        while True:
-            pass
 
     @staticmethod
     def extract_payload(msg):
@@ -49,7 +46,7 @@ class DataCollector(object):
 
         # device is in database
         if self.db.get_device(data['id']):
-            reply = {"ip": "192.168.1.1", "port": 1883}
+            reply = {"ip": "192.168.1.1", "port": 1883} # TODO replace with config
             self.mqtt.publish(str.format("esp_hub/device/{}/accept", data['id']), json.dumps(reply))
         else:
             # add device to waiting device list
@@ -77,19 +74,20 @@ class DataCollector(object):
             self.db.insert_record(record)
             print(">>> ", data['type'], data['value'])
 
-    def verify_device(self, device_id, device_name, device_abilities):
-        """
-        Verifi device identitiy
-        Blocking operation which wait for user response
-        :param device_id:
-        :param device_name:
-        :param device_abilities:
-        :return:
-        """
-        confirm = input(str.format("Do you want to add new device {} (ID: {})? [Y/n] ", device_name, device_id))
-        if confirm.lower() == 'y' or confirm.lower() == 'yes':
-            new_device = DAO.Device(device_id, device_name, device_abilities)
-            self.db.insert_device(new_device)
-            print("Add new device")
-            reply = {"ip": "192.168.1.1", "port": 1883}
-            self.mqtt.publish(str.format("esp_hub/device/{}/accept", device_id), json.dumps(reply))
+    # obsolete - verification process ensures web application and Data sender
+    # def verify_device(self, device_id, device_name, device_abilities):
+    #     """
+    #     Verifi device identitiy
+    #     Blocking operation which wait for user response
+    #     :param device_id:
+    #     :param device_name:
+    #     :param device_abilities:
+    #     :return:
+    #     """
+    #     confirm = input(str.format("Do you want to add new device {} (ID: {})? [Y/n] ", device_name, device_id))
+    #     if confirm.lower() == 'y' or confirm.lower() == 'yes':
+    #         new_device = DAO.Device(device_id, device_name, device_abilities)
+    #         self.db.insert_device(new_device)
+    #         print("Add new device")
+    #         reply = {"ip": "192.168.1.1", "port": 1883}
+    #         self.mqtt.publish(str.format("esp_hub/device/{}/accept", device_id), json.dumps(reply))

@@ -6,7 +6,7 @@ handle client and topics registrations
 import paho.mqtt.client as mqtt
 
 
-class MessageHandler(object):
+class _MessageHandler(object):
     def __init__(self, broker_addres, broker_port=1883, keep_alive=30):
         self.broker_address = broker_addres
         self.broker_port =broker_port
@@ -56,3 +56,16 @@ class MessageHandler(object):
 
     def publish(self, topic, payload, qos=0, retain=False):
         self.client.publish(topic, payload, qos=qos, retain=retain)
+
+
+class Singleton(type):
+    _instance = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instance:
+            cls._instance[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instance[cls]
+
+
+class MessageHandler(_MessageHandler, metaclass=Singleton):
+    pass

@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .models import Device, Record
 from DataAccess import DBA, DAO
-
+from DeviceCom import DataSender
 
 def index(request):
     devices = Device.get_all()
@@ -42,6 +42,8 @@ def verify_device(request, device_id):
     device = db.get_waiting_device(device_id)  # get waiting device for transfer to permanent devices table
     db.remove_waiting_device(device_id)  # remove device from waiting devices table
     # TODO send message to device
+    sender = DataSender.DataSender()
+    sender.verify_device(device_id)
 
     print(device_id)
     print(device)
