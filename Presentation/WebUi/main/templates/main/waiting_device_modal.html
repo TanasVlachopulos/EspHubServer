@@ -10,13 +10,20 @@
                 <input value="{{ name }}" id="device-name" name="device-name" type="text" class="validate">
                 <label for="device-name">Device name</label>
             </div>
+            <input id="input-{{ id }}" type="hidden" name="remove-device" value="false">
         </form>
         </p>
     </div>
     <div class="modal-footer">
-        <a class="waves-effect waves-light btn" onclick="$('#form-{{ id }}').submit();">
-            <i class="material-icons right">send</i>
+        <a class="modal-action modal-close waves-effect waves-green btn-flat " onclick="$('#form-{{ id }}').submit();">
+            <i class="material-icons right">done</i>
             Add device
         </a>
+        <a class="modal-action modal-close waves-effect waves-red btn-flat " onclick="removeDevice({{ id }})">
+{#            $('#form-{{ id }})[name=\x22remove-device\x22]').val('true');#}
+            <i class="material-icons right">clear</i>
+            Ignore
+        </a>
     </div>
+
 </div>

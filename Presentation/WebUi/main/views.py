@@ -41,14 +41,16 @@ def verify_device(request, device_id):
     db = DBA.Dba("test.db")
     device = db.get_waiting_device(device_id)  # get waiting device for transfer to permanent devices table
     db.remove_waiting_device(device_id)  # remove device from waiting devices table
-    # TODO send message to device
-    sender = DataSender.DataSender()
-    sender.verify_device(device_id)
 
-    print(device_id)
-    print(device)
-    device.name = request.POST['device-name']
-    db.insert_device(device)
+    # if hidden remove input is set to false
+    if request.POST['remove-device'] == 'false':
+        # sending MQTT message to device
+        sender = DataSender.DataSender()
+        sender.verify_device(device_id)
+
+        # add device to database
+        device.name = request.POST['device-name']
+        db.insert_device(device)
 
     return HttpResponseRedirect(reverse('main:waiting_devices'))
 
