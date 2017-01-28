@@ -6,7 +6,7 @@
     <h1>{{ msg }}</h1>
     <div class="collection">
         {% for device in devices %}
-            {% include "main/line.html" with name=device.name id=device.id provided_func=device.provided_func|join:', ' %}
+            {% include "main/index_line.html" with name=device.name id=device.id provided_func=device.provided_func|join:', ' %}
         {% endfor %}
     </div>
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends "main/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <ul class="collection">
+        {% for device in devices %}
+            {% include "main/waiting_devices_line.html" with name=device.name id=device.id provided_func=device.provided_func|join:', ' %}
+        {% endfor %}
+    </ul>
+{% endblock %}

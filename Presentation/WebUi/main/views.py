@@ -29,10 +29,18 @@ def device_detail(request, device_id):
     return render(request, 'main/device_detail.html', response)
 
 
+def waiting_devices(request):
+    db = DBA.Dba("test.db")
+    devices = db.get_waiting_devices()
+
+    response = {'title': 'Waiting devices',
+                'devices': devices}
+    return render(request, 'main/waiting_devices.html', response)
+
+
 def waiting_devices_api(request):
     db = DBA.Dba("test.db")
     devices = db.get_waiting_devices()
-    print(len(devices))
 
     response = json.dumps([device.__dict__ for device in devices])
     return HttpResponse(response)
