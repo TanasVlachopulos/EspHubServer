@@ -20,7 +20,8 @@ class DataCollector(object):
         while True:
             pass
 
-    def extract_payload(self, msg):
+    @staticmethod
+    def extract_payload(msg):
         """
         Extract data msg from MQTT client
         :param msg: MQTT message
@@ -28,7 +29,8 @@ class DataCollector(object):
         """
         return json.loads(msg.payload.decode("utf-8"))
 
-    def extract_device_id(self, msg):
+    @staticmethod
+    def extract_device_id(msg):
         """
         Extract device id from topic string
         :param msg: MQTT message
@@ -50,7 +52,10 @@ class DataCollector(object):
             reply = {"ip": "192.168.1.1", "port": 1883}
             self.mqtt.publish(str.format("esp_hub/device/{}/accept", data['id']), json.dumps(reply))
         else:
-            self.verify_device(data['id'], data['name'], data['ability'])
+            # add device to waiting device list
+            self.db.add_waiting_device(DAO.Device(data['id'], data['name'], data['ability']))
+            print(self.db)
+            # self.verify_device(data['id'], data['name'], data['ability'])
 
     def telemetry_callback(self, client, userdata, msg):
         """

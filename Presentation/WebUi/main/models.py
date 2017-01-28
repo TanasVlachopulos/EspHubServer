@@ -18,6 +18,6 @@ class Device(DAO.Device):
 class Record(DAO.Record):
 
     @staticmethod
-    def get_all(device_id):
+    def get_all(device_id, limit=20):
         db = DBA.Dba("test.db")
-        return db.get_record_from_device(device_id)
+        return db.get_record_from_device(device_id, limit=limit)
