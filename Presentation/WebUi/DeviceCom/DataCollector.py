@@ -2,6 +2,7 @@
 Handle incoming messages form ESP devices and sending data to Db layer
 """
 from Presentation.WebUi.DataAccess import DAO, DBA
+from datetime import datetime
 import time
 import json
 from MessageHandler import MessageHandler
@@ -63,7 +64,7 @@ class DataCollector(object):
         device_id = self.extract_device_id(msg)
         # print(device_id)
         print(data)
-        telemetry = DAO.Telemetry(device_id, int(time.time()), data['rssi'], data['heap'], data['cycles'], '0', '0', '0')
+        telemetry = DAO.Telemetry(device_id, datetime.now(), data['rssi'], data['heap'], data['cycles'], '0', '0', '0')
         self.db.insert_telemetry(telemetry)
 
     def data_callback(self, client, userdata, msg):

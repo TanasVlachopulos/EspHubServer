@@ -4,6 +4,8 @@
 """
 import time
 
+import datetime
+
 
 class Device(object):
     def __init__(self, id, name, provided_func):
@@ -31,9 +33,17 @@ class Device(object):
 class Record(object):
     def __init__(self, id, time, type, value):
         self.id = id
-        self.time = time
+        self._time = time.timestamp()
         self.type = type
         self.value = value
+
+    @property
+    def time(self):
+        return datetime.datetime.fromtimestamp(self._time)
+
+    @time.setter
+    def time(self, value):
+        self._time = value.timestamp()
 
     def __str__(self):
         return '| ' + self.id + ' | ' + time.asctime(time.localtime(self.time)) + ' | ' + self.type + ' | ' + self.value + '|'
@@ -42,13 +52,21 @@ class Record(object):
 class Telemetry(object):
     def __init__(self, device_id, time, rssi, heap, cycles, voltage, ip, mac):
         self.device_id = device_id
-        self.time = time
+        self._time = time.timestamp()
         self.rssi = rssi
         self.heap = heap
         self.cycles = cycles
         self.voltage = voltage
         self.ip = ip
         self.mac = mac
+
+    @property
+    def time(self):
+        return datetime.datetime.fromtimestamp(self._time)
+
+    @time.setter
+    def time(self, value):
+        self._time = value.timestamp()
 
     def __str__(self):
         return str.format("{} | {} | {} | {} | {} | {}",

@@ -231,6 +231,9 @@ class _Dba(object):
         except sql.Error as e:
             print(e.args[0])
             return None
+        except IndexError:
+            print("No item found")
+            return None
         finally:
             con.close()
 

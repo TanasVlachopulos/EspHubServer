@@ -40,7 +40,7 @@ class _MessageHandler(object):
             print("Connection error " + str(rc))
 
     @staticmethod
-    def _on_disconnect_callback(userdata, rc):
+    def _on_disconnect_callback(client, userdata, rc):
         if rc != 0:
             print("Unexpected disconnection")
         # self.is_connected = False

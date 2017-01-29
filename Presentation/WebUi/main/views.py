@@ -7,6 +7,7 @@ from .models import Device, Record
 from DataAccess import DBA, DAO
 from DeviceCom import DataSender
 
+
 def index(request):
     devices = Device.get_all()
 
@@ -54,9 +55,21 @@ def verify_device(request, device_id):
 
     return HttpResponseRedirect(reverse('main:waiting_devices'))
 
+
 def waiting_devices_api(request):
     db = DBA.Dba("test.db")
     devices = db.get_waiting_devices()
 
     response = json.dumps([device.__dict__ for device in devices])
     return HttpResponse(response)
+
+
+def telemetry_api(request, device_id):
+    db = DBA.Dba('test.db')
+    telemetry = db.get_telemetry(device_id)
+
+    if telemetry:
+        response = json.dumps(telemetry.__dict__)
+        return HttpResponse(response)
+    else:
+        return HttpResponse('{}')
