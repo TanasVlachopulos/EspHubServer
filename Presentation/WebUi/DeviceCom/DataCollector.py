@@ -60,6 +60,11 @@ class DataCollector(object):
         Topic: esp_hub/device/+/telemetry
         """
         data = self.extract_payload(msg)
+        device_id = self.extract_device_id(msg)
+        # print(device_id)
+        print(data)
+        telemetry = DAO.Telemetry(device_id, int(time.time()), data['rssi'], data['heap'], data['cycles'], '0', '0', '0')
+        self.db.insert_telemetry(telemetry)
 
     def data_callback(self, client, userdata, msg):
         """

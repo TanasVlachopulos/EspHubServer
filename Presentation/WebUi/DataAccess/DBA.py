@@ -22,6 +22,7 @@ class _Dba(object):
             cur.execute("CREATE TABLE IF NOT EXISTS Devices(Id TEXT PRIMARY KEY, Name TEXT, Provided_func TEXT)")
             cur.execute("CREATE TABLE IF NOT EXISTS Records(Id INTEGER PRIMARY KEY, Device_id TEXT, Time NUMERIC, Type TEXT, Value TEXT)")
             cur.execute("CREATE TABLE IF NOT EXISTS WaitingDevices(Device_id TEXT PRIMARY KEY, Name TEXT, provided_func TEXT)")
+            cur.execute("CREATE TABLE IF NOT EXISTS Telemetry(Device_id TEXT PRIMARY KEY, Time NUMERIC, Rssi TEXT, Heap TEXT, Cycles TEXT, Voltage TEXT, Ip TEXT, Mac TEXT)")
         except sql.Error as e:
             if con:
                 con.rollback()
@@ -195,6 +196,44 @@ class _Dba(object):
             print(e.args[0])
         finally:
             con.close()
+
+    def insert_telemetry(self, telemetry):
+        """
+        Insert or replace exist telemetry record
+        :param telemetry: telemetry DAO object
+        """
+        con = self._get_connection()
+        try:
+            cur = con.cursor()
+            values = {'Device_id': telemetry.device_id, 'Time': telemetry.time, 'Rssi': telemetry.rssi, 'Heap': telemetry.heap,
+                      'Cycles': telemetry.cycles, 'Voltage': telemetry.voltage, 'Ip': telemetry.ip, 'Mac': telemetry.mac}
+            cur.execute("INSERT OR REPLACE INTO Telemetry(Device_id, Time, Rssi, Heap, Cycles, Voltage, Ip, Mac) "
+                        "VALUES(:Device_id, :Time, :Rssi, :Heap, :Cycles, :Voltage, :Ip, :Mac)", values)
+            con.commit()
+        except sql.Error as e:
+            print(e.args[0])
+        finally:
+            con.close()
+
+    def get_telemetry(self, device_id):
+        """
+        Get single telemetry record by device_id
+        :param device_id
+        :return: DAO telemetry record
+        """
+        con = self._get_connection()
+        try:
+            cur = con.cursor()
+            cur.row_factory = sql.Row  # return data from cursor as dictionary
+            cur.execute("SELECT * FROM Telemetry WHERE Device_id=:Device_id", {'Device_id': device_id})
+            row = (cur.fetchall())[0]
+            return DAO.Telemetry(row['Device_id'], row['Time'], row['Rssi'], row['Heap'], row['Cycles'], row['Voltage'], row['Ip'], row['Mac'])
+        except sql.Error as e:
+            print(e.args[0])
+            return None
+        finally:
+            con.close()
+
 
 
 class Singleton(type):

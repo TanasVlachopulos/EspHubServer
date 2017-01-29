@@ -37,3 +37,19 @@ class Record(object):
 
     def __str__(self):
         return '| ' + self.id + ' | ' + time.asctime(time.localtime(self.time)) + ' | ' + self.type + ' | ' + self.value + '|'
+
+
+class Telemetry(object):
+    def __init__(self, device_id, time, rssi, heap, cycles, voltage, ip, mac):
+        self.device_id = device_id
+        self.time = time
+        self.rssi = rssi
+        self.heap = heap
+        self.cycles = cycles
+        self.voltage = voltage
+        self.ip = ip
+        self.mac = mac
+
+    def __str__(self):
+        return str.format("{} | {} | {} | {} | {} | {}",
+                          self.device_id, self.time, self.rssi, self.heap, self.cycles, self.voltage, self.ip, self.mac)
