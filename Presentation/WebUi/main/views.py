@@ -7,13 +7,16 @@ from .models import Device, Record
 from DataAccess import DBA, DAO
 from DeviceCom import DataSender
 
+# TODO handle 404 page not found error
+# TODO replace test.db with config class
+# TODO maximalizovat predavani hodnot do templatu - snizit pocet leteraru v templatech
 
 def index(request):
     devices = Device.get_all()
 
     devices_id_lst = [device.id for device in devices]
 
-    response = {'msg': 'Records',
+    response = {'msg': 'Devices',
                 'devices': devices,
                 'devices_json': json.dumps(devices_id_lst),
                 'time_to_live': 30,
@@ -75,3 +78,16 @@ def telemetry_api(request, device_id):
         return HttpResponse(response)
     else:
         return HttpResponse('{}')
+
+
+def device_actual_values_api(request, device_id):
+    db = DBA.Dba("test.db")
+    device = db.get_device(device_id)
+    print(device)
+
+    device_values = []
+    for func in device.provided_func:
+        records = db.get_record_from_device(device_id, value_type=func, limit=1)  # get newest record from db
+        device_values.append(records[0].__dict__)  # select first from 1 length list and make dictionary
+
+    return HttpResponse(json.dumps(device_values))

@@ -3,7 +3,7 @@
 {% block title %}ESP Hub devices{% endblock %}
 
 {% block content %}
-    <h1>{{ msg }}</h1>
+    <h3>{{ msg }}</h3>
     <div class="collection">
         {% for device in devices %}
             {% include "main/index_line.html" with name=device.name id=device.id provided_func=device.provided_func|join:', ' %}

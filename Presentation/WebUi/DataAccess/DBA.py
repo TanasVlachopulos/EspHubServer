@@ -169,13 +169,19 @@ class _Dba(object):
             con.close()
 
     """ Get all record from single device """
-    def get_record_from_device(self, device_id, order='desc', limit=600):
+    def get_record_from_device(self, device_id, value_type=None, order='desc', limit=600):
         con = self._get_connection()
+        if value_type:
+            type_selector = str.format("AND Type='{}'", value_type)
+        else:
+            type_selector = ""
+
         try:
             cur = con.cursor()
             cur.row_factory = sql.Row  # return data from cursor as dictionary
-            cur.execute(str.format("SELECT * FROM Records WHERE Device_id=:Device_id ORDER BY Time {} LIMIT {}", order, limit),
+            cur.execute(str.format("SELECT * FROM Records WHERE Device_id=:Device_id {} ORDER BY Time {} LIMIT {}", type_selector, order, limit),
                         {"Device_id": device_id})
+
             rows = cur.fetchall()
             return [DAO.Record(x['Device_id'], x['Time'], x['Type'], x['Value']) for x in rows]
         except sql.Error as e:

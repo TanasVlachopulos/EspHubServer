@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^verify-device/(?P<device_id>[0-9]+)', views.verify_device, name='verify_device'),  # device verification form
     url(r'^api/waiting-devices', views.waiting_devices_api, name='waiting_devices_api'),  # REST api for waiting devices
     url(r'^api/telemetry/(?P<device_id>[0-9]+)', views.telemetry_api, name='telemetry_api'),  # REST api for device telemetry
+    url(r'^api/device-values/(?P<device_id>[0-9]+)', views.device_actual_values_api, name='device_actual_values_api'),  # REST api for actual device values
 ]
