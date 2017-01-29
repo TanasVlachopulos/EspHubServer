@@ -177,7 +177,7 @@ class _Dba(object):
             cur.execute(str.format("SELECT * FROM Records WHERE Device_id=:Device_id ORDER BY Time {} LIMIT {}", order, limit),
                         {"Device_id": device_id})
             rows = cur.fetchall()
-            return [DAO.Record(x['Device_id'], sql.datetime.datetime.fromtimestamp(x['Time']), x['Type'], x['Value']) for x in rows]
+            return [DAO.Record(x['Device_id'], x['Time'], x['Type'], x['Value']) for x in rows]
         except sql.Error as e:
             print(e.args[0])
             return None
@@ -190,7 +190,7 @@ class _Dba(object):
         try:
             cur = con.cursor()
             cur.execute("INSERT INTO Records(Device_id, Time, Type, Value) VALUES(:Device_id, :Time, :Type, :Value)",
-                        {'Device_id': record.id, 'Time': record.time, 'Type': record.type, 'Value': record.value})
+                        {'Device_id': record.id, 'Time': record.timestamp, 'Type': record.value_type, 'Value': record.value})
             con.commit()
         except sql.Error as e:
             print(e.args[0])
@@ -205,7 +205,7 @@ class _Dba(object):
         con = self._get_connection()
         try:
             cur = con.cursor()
-            values = {'Device_id': telemetry.device_id, 'Time': telemetry.time, 'Rssi': telemetry.rssi, 'Heap': telemetry.heap,
+            values = {'Device_id': telemetry.device_id, 'Time': telemetry.timestamp, 'Rssi': telemetry.rssi, 'Heap': telemetry.heap,
                       'Cycles': telemetry.cycles, 'Voltage': telemetry.voltage, 'Ip': telemetry.ip, 'Mac': telemetry.mac}
             cur.execute("INSERT OR REPLACE INTO Telemetry(Device_id, Time, Rssi, Heap, Cycles, Voltage, Ip, Mac) "
                         "VALUES(:Device_id, :Time, :Rssi, :Heap, :Cycles, :Voltage, :Ip, :Mac)", values)

@@ -3,7 +3,6 @@ Handle incoming messages form ESP devices and sending data to Db layer
 """
 from Presentation.WebUi.DataAccess import DAO, DBA
 from datetime import datetime
-import time
 import json
 from MessageHandler import MessageHandler
 
@@ -76,7 +75,7 @@ class DataCollector(object):
         client_id = self.extract_device_id(msg)
 
         if 'type' in data and 'value' in data:
-            record = DAO.Record(client_id, int(time.time()), data["type"], data["value"])
+            record = DAO.Record(client_id, datetime.now(), data["type"], data["value"])
             self.db.insert_record(record)
             print(">>> ", data['type'], data['value'])
 

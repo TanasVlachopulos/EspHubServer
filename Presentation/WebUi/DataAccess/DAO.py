@@ -31,11 +31,25 @@ class Device(object):
 
 
 class Record(object):
-    def __init__(self, id, time, type, value):
+    def __init__(self, id, time, value_type, value):
+        """
+
+        :param id: unique device id - string value
+        :param time: primarily in Datetime format but accept also UNIX timestamp in float and int format
+        :param value_type:
+        :param value:
+        """
         self.id = id
-        self._time = time.timestamp()
-        self.type = type
+        if type(time) is float or type(time) is int:
+            self._time = time
+        else:
+            self._time = time.timestamp()
+        self.value_type = value_type
         self.value = value
+
+    @property
+    def timestamp(self):
+        return self._time
 
     @property
     def time(self):
@@ -46,19 +60,37 @@ class Record(object):
         self._time = value.timestamp()
 
     def __str__(self):
-        return '| ' + self.id + ' | ' + time.asctime(time.localtime(self.time)) + ' | ' + self.type + ' | ' + self.value + '|'
+        return '| ' + self.id + ' | ' + time.asctime(time.localtime(self.time)) + ' | ' + self.value_type + ' | ' + self.value + '|'
 
 
 class Telemetry(object):
     def __init__(self, device_id, time, rssi, heap, cycles, voltage, ip, mac):
+        """
+        Holder of device telemetry
+        :param device_id: unique device id - string value
+        :param time: primarily in Datetime format but accept also UNIX timestamp in float and int format
+        :param rssi:
+        :param heap:
+        :param cycles:
+        :param voltage:
+        :param ip:
+        :param mac:
+        """
         self.device_id = device_id
-        self._time = time.timestamp()
+        if type(time) is float or type(time) is int:
+            self._time = time
+        else:
+            self._time = time.timestamp()
         self.rssi = rssi
         self.heap = heap
         self.cycles = cycles
         self.voltage = voltage
         self.ip = ip
         self.mac = mac
+
+    @property
+    def timestamp(self):
+        return self._time
 
     @property
     def time(self):
