@@ -11,10 +11,12 @@ from DeviceCom import DataSender
 def index(request):
     devices = Device.get_all()
 
-    test = Device('123', 'test', 'temp, hum')
+    devices_id_lst = [device.id for device in devices]
 
     response = {'msg': 'Records',
                 'devices': devices,
+                'devices_json': json.dumps(devices_id_lst),
+                'time_to_live': 30,
                 }
     return render(request, "main/index.html", response)
 
