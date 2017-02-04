@@ -75,7 +75,7 @@ class _Dba(object):
             return [DAO.Device(x['Device_id'], x['Name'], x['Provided_func']) for x in rows]
         except sql.Error as e:
             print(e.args[0])
-            return None
+            return []
         finally:
             con.close()
 
@@ -115,7 +115,7 @@ class _Dba(object):
             return [DAO.Device(x['Id'], x['Name'], x['Provided_func']) for x in rows]
         except sql.Error as e:
             print(e.args[0])
-            return None
+            return []
         finally:
             con.close()
 
@@ -186,7 +186,7 @@ class _Dba(object):
             return [DAO.Record(x['Device_id'], x['Time'], x['Type'], x['Value']) for x in rows]
         except sql.Error as e:
             print(e.args[0])
-            return None
+            return []
         finally:
             con.close()
 

@@ -11,8 +11,28 @@
                 <div class="card-content white-text">
                     <span class="card-title">Device values</span>
                     <p>
-
-                    </p>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td data-field="type"><strong>Type</strong></td>
+                            <td data-field="datetime"><strong>Last time</strong></td>
+                            <td data-field="value"><strong>Value</strong></td>
+                        </tr>
+                        {% for value in actual_values %}
+                            <tr>
+                                <td>{{ value.value_type|capfirst }}</td>
+                                <td>
+                                    <span id="date-{{ value.value_type }}">{{ value.time|date:"j. E" }}</span> &nbsp;
+                                    <span id="time-{{ value.value_type }}">{{ value.time|time:"H:i:s" }}</span>
+                                </td>
+                                <td>
+                                    <span id="value-{{ value.value_type }}"> {{ value.value }}</span>&nbsp;
+                                    <span id="unit-{{ value.value_type }}">Unit</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -25,7 +45,11 @@
 
     {% load static %}
     <script type="text/javascript" src="{% static 'main/js/updateDeviceStatus.js' %}"></script>
+    <script type="text/javascript" src="{% static 'main/js/updateDeviceValues.js' %}"></script>
     <script type="text/javascript">
-        $(document).ready(updateDeviceStatus("{% url 'main:telemetry_api' device.id %}"))
+        $(document).ready(function () {
+            updateDeviceStatus("{% url 'main:telemetry_api' device.id %}", {{ device_status_interval }});
+            updateDeviceValues("{% url 'main:device_actual_values_api' device.id %}", {{ device_values_interval }});
+        });
     </script>
 {% endblock %}

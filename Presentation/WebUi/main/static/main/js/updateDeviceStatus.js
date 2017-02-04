@@ -1,4 +1,4 @@
-function updateDeviceStatus(apiUrl) {
+function updateDeviceStatus(apiUrl, updateInterval) {
 
     $.getJSON(apiUrl, function (result) {
         if (!$.isEmptyObject(result)) {
@@ -17,5 +17,5 @@ function updateDeviceStatus(apiUrl) {
         }
     });
 
-    setTimeout(updateDeviceStatus, 30000, apiUrl)
+    setTimeout(updateDeviceStatus, updateInterval, apiUrl, updateInterval);
 }
