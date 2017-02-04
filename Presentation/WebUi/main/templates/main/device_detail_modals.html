@@ -1,0 +1,28 @@
+<!-- Modal Structure -->
+<div id="modal-remove" class="modal">
+    <div class="modal-content">
+        <h5>Remove device</h5>
+        <br>
+        Are you sure to permanently remove this device.
+        <form action="{% url 'main:remove_device' id %}" method="post" id="form-remove">
+            {% csrf_token %}
+            <input id="input-{{ id }}" type="hidden" name="remove-device" value="true">
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+        <a class="modal-action modal-close waves-effect waves-red btn-flat" onclick="$('#form-remove').submit();">Remove</a>
+    </div>
+</div>
+
+<div id="modal-edit" class="modal">
+    <div class="modal-content">
+        <h5>Edit device</h5>
+        <br>
+        Are you sure to permanently remove this device.
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat ">Edit</a>
+        <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+    </div>
+</div>

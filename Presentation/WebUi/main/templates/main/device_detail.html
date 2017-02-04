@@ -3,7 +3,21 @@
 {% block title %}Device detail{% endblock %}
 
 {% block content %}
-    <h3>{{ device.name }}</h3>
+    <div class="row">
+        <div class="col s12 m6 l6">
+            <h3>{{ device.name }}</h3>
+        </div>
+        <div class="col s12 m6 l6">
+
+            <div class="right-align" style="padding-top: 2em">
+                <a class="waves-effect waves-light btn red darken-1" href="#modal-remove">Remove</a>
+                <a class="waves-effect waves-light btn blue-grey darken-1" href="#modal-edit">Edit</a>
+            </div>
+
+        </div>
+    </div>
+
+    {% include "main/device_detail_modals.html" with id=device.id %}
 
     <div class="row">
         {% include 'main/device_detail_values_card.html' with actual_values=actual_values %}
@@ -20,6 +34,7 @@
         $(document).ready(function () {
             updateDeviceStatus("{% url 'main:telemetry_api' device.id %}", {{ device_status_interval }});
             updateDeviceValues("{% url 'main:device_actual_values_api' device.id %}", {{ device_values_interval }});
+            $('.modal').modal(); // init modal windows
         });
     </script>
 {% endblock %}

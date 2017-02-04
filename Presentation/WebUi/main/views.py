@@ -9,6 +9,7 @@ from .data_parsing import *
 from DataAccess import DBA, DAO
 from DeviceCom import DataSender
 
+
 # TODO handle 404 page not found error
 # TODO replace test.db with config class
 # TODO maximalizovat predavani hodnot do templatu - snizit pocet leteraru v templatech
@@ -53,6 +54,7 @@ def waiting_devices(request):
     return render(request, 'main/waiting_devices.html', response)
 
 
+""" FORMS """
 def verify_device(request, device_id):
     db = DBA.Dba("test.db")
     device = db.get_waiting_device(device_id)  # get waiting device for transfer to permanent devices table
@@ -71,6 +73,16 @@ def verify_device(request, device_id):
     return HttpResponseRedirect(reverse('main:waiting_devices'))
 
 
+def remove_device(request, device_id):
+    db = DBA.Dba("test.db")
+    if request.POST['remove-device'] == 'true':
+        print('true')
+        db.remove_device(device_id)
+
+    return HttpResponseRedirect(reverse('main:index'))
+
+
+""" API """
 def waiting_devices_api(request):
     db = DBA.Dba("test.db")
     devices = db.get_waiting_devices()
@@ -91,15 +103,6 @@ def telemetry_api(request, device_id):
 
 
 def device_actual_values_api(request, device_id):
-    # db = DBA.Dba("test.db")
-    # device = db.get_device(device_id)
-    # # print(device)
-    #
-    # device_values = []
-    # for func in device.provided_func:
-    #     records = db.get_record_from_device(device_id, value_type=func, limit=1)  # get newest record from db
-    #     device_values.append(records[0].__dict__)  # select first from 1 length list and make dictionary
-
     device_values = get_actual_device_values(device_id)
 
     # handle not serializable datetime objects in device_values

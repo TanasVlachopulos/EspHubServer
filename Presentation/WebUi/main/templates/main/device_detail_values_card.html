@@ -8,7 +8,7 @@
                 <tr>
                     <td data-field="type"><strong>Type</strong></td>
                     <td data-field="datetime"><strong>Last time</strong></td>
-                    <td data-field="value"><strong>Value</strong></td>
+                    <td data-field="value" style="text-align:right"><strong>Value</strong></td>
                 </tr>
                 {% for value in actual_values %}
                     <tr>
@@ -17,7 +17,7 @@
                             <span id="date-{{ value.value_type }}">{{ value.time|date:"j. E" }}</span> &nbsp;
                             <span id="time-{{ value.value_type }}">{{ value.time|time:"H:i:s" }}</span>
                         </td>
-                        <td>
+                        <td style="text-align:right">
                             <span id="value-{{ value.value_type }}"> {{ value.value }}</span>&nbsp;
                             <span id="unit-{{ value.value_type }}">Unit</span>
                         </td>

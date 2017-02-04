@@ -149,11 +149,19 @@ class _Dba(object):
         finally:
             con.close()
 
-    # def remove_device(self, device_id):
-    #     con = self._get_connection()
-    #     try:
-    #         cur = con.cursor()
-    #         cur.execute("")
+    def remove_device(self, device_id):
+        con = self._get_connection()
+        try:
+            cur = con.cursor()
+            cur.execute("DELETE FROM Records WHERE Device_id=:Device_id",
+                        {'Device_id': device_id})
+            cur.execute("DELETE FROM Devices WHERE Id=:Id",
+                        {'Id': device_id})
+            con.commit()
+        except sql.Error as e:
+            print(e.args[0])
+        finally:
+            con.close()
 
     """ Update list of provided function for one device """
     def update_provided_func(self, id, function):
