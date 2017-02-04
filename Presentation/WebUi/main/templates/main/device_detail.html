@@ -6,37 +6,7 @@
     <h3>{{ device.name }}</h3>
 
     <div class="row">
-        <div class="col s12 s8 m8">
-            <div class="card green darken-1">
-                <div class="card-content white-text">
-                    <span class="card-title">Device values</span>
-                    <p>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td data-field="type"><strong>Type</strong></td>
-                            <td data-field="datetime"><strong>Last time</strong></td>
-                            <td data-field="value"><strong>Value</strong></td>
-                        </tr>
-                        {% for value in actual_values %}
-                            <tr>
-                                <td>{{ value.value_type|capfirst }}</td>
-                                <td>
-                                    <span id="date-{{ value.value_type }}">{{ value.time|date:"j. E" }}</span> &nbsp;
-                                    <span id="time-{{ value.value_type }}">{{ value.time|time:"H:i:s" }}</span>
-                                </td>
-                                <td>
-                                    <span id="value-{{ value.value_type }}"> {{ value.value }}</span>&nbsp;
-                                    <span id="unit-{{ value.value_type }}">Unit</span>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
+        {% include 'main/device_detail_values_card.html' with actual_values=actual_values %}
         {% include 'main/device_detail_status_card.html' %}
     </div>
 
