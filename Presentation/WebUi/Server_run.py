@@ -1,7 +1,9 @@
 # import datetime
 # from Presentation.WebUi.DataAccess import DAO
 
-from Presentation.WebUi.DeviceCom import  DataCollector as collector
+import time
+
+from Presentation.WebUi.DeviceCom import DataCollector as collector
 
 collector.DataCollector('test.db', 'config')
 
@@ -9,5 +11,8 @@ collector.DataCollector('test.db', 'config')
 # print(tel._time)
 # print(tel.time)
 
-while True:
-    pass
+try:
+    while True:
+        time.sleep(0.2)
+except KeyboardInterrupt:
+    exit(0)

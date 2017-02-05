@@ -10,7 +10,7 @@ function updateDeviceStatus(apiUrl, updateInterval) {
             $('#rssi').text(result['rssi']);
             $('#last-echo').text(formatedTime);
             $('#ip').text(result['ip']);
-            $('#voltage').text(result['voltage']);
+            $('#ssid').text(result['ssid']);
         }
         else {
             console.log("empty telemetry");

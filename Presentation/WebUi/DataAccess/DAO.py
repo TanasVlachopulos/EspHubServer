@@ -64,17 +64,17 @@ class Record(object):
 
 
 class Telemetry(object):
-    def __init__(self, device_id, time, rssi, heap, cycles, voltage, ip, mac):
+    def __init__(self, device_id, time, rssi='0', heap='0', cycles='0', voltage='0', ip='0', mac='0', ssid='0'):
         """
         Holder of device telemetry
         :param device_id: unique device id - string value
         :param time: primarily in Datetime format but accept also UNIX timestamp in float and int format
-        :param rssi:
-        :param heap:
+        :param rssi: Recieved signa code power to wifi AP
+        :param heap: Amount of memory on heap
         :param cycles:
-        :param voltage:
-        :param ip:
-        :param mac:
+        :param voltage: Device input voltage
+        :param ip: Device IP address
+        :param mac: Device MAC address
         """
         self.device_id = device_id
         if type(time) is float or type(time) is int:
@@ -87,6 +87,7 @@ class Telemetry(object):
         self.voltage = voltage
         self.ip = ip
         self.mac = mac
+        self.ssid = ssid
 
     @property
     def timestamp(self):
@@ -101,5 +102,5 @@ class Telemetry(object):
         self._time = value.timestamp()
 
     def __str__(self):
-        return str.format("{} | {} | {} | {} | {} | {}",
-                          self.device_id, self.time, self.rssi, self.heap, self.cycles, self.voltage, self.ip, self.mac)
+        return str.format("{} | {} | {} | {} | {} | {} | {}",
+                          self.device_id, self.time, self.rssi, self.heap, self.cycles, self.voltage, self.ip, self.mac, self.ssid)

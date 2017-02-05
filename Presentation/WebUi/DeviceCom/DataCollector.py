@@ -61,9 +61,11 @@ class DataCollector(object):
         """
         data = self.extract_payload(msg)
         device_id = self.extract_device_id(msg)
-        # print(device_id)
+
         print(data)
-        telemetry = DAO.Telemetry(device_id, datetime.now(), data['rssi'], data['heap'], data['cycles'], '0', '0', '0')
+        telemetry = DAO.Telemetry(device_id, datetime.now(), rssi=data.get('rssi', '0'), heap=data.get('heap', '0'),
+                                  cycles=data.get('cycles', '0'), ip=data.get('local_ip', '0'), mac=data.get('mac', '0'),
+                                  voltage=data.get('voltage', '0'), ssid=data.get('ssid', '0'))
         self.db.insert_telemetry(telemetry)
 
     def data_callback(self, client, userdata, msg):

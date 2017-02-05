@@ -22,7 +22,8 @@ class _Dba(object):
             cur.execute("CREATE TABLE IF NOT EXISTS Devices(Id TEXT PRIMARY KEY, Name TEXT, Provided_func TEXT)")
             cur.execute("CREATE TABLE IF NOT EXISTS Records(Id INTEGER PRIMARY KEY, Device_id TEXT, Time NUMERIC, Type TEXT, Value TEXT)")
             cur.execute("CREATE TABLE IF NOT EXISTS WaitingDevices(Device_id TEXT PRIMARY KEY, Name TEXT, provided_func TEXT)")
-            cur.execute("CREATE TABLE IF NOT EXISTS Telemetry(Device_id TEXT PRIMARY KEY, Time NUMERIC, Rssi TEXT, Heap TEXT, Cycles TEXT, Voltage TEXT, Ip TEXT, Mac TEXT)")
+            cur.execute("CREATE TABLE IF NOT EXISTS Telemetry(Device_id TEXT PRIMARY KEY, Time NUMERIC, Rssi TEXT,"
+                        " Heap TEXT, Cycles TEXT, Voltage TEXT, Ip TEXT, Mac TEXT, Ssid TEXT)")
         except sql.Error as e:
             if con:
                 con.rollback()
@@ -220,9 +221,9 @@ class _Dba(object):
         try:
             cur = con.cursor()
             values = {'Device_id': telemetry.device_id, 'Time': telemetry.timestamp, 'Rssi': telemetry.rssi, 'Heap': telemetry.heap,
-                      'Cycles': telemetry.cycles, 'Voltage': telemetry.voltage, 'Ip': telemetry.ip, 'Mac': telemetry.mac}
-            cur.execute("INSERT OR REPLACE INTO Telemetry(Device_id, Time, Rssi, Heap, Cycles, Voltage, Ip, Mac) "
-                        "VALUES(:Device_id, :Time, :Rssi, :Heap, :Cycles, :Voltage, :Ip, :Mac)", values)
+                      'Cycles': telemetry.cycles, 'Voltage': telemetry.voltage, 'Ip': telemetry.ip, 'Mac': telemetry.mac, 'Ssid': telemetry.ssid}
+            cur.execute("INSERT OR REPLACE INTO Telemetry(Device_id, Time, Rssi, Heap, Cycles, Voltage, Ip, Mac, Ssid) "
+                        "VALUES(:Device_id, :Time, :Rssi, :Heap, :Cycles, :Voltage, :Ip, :Mac, :Ssid)", values)
             con.commit()
         except sql.Error as e:
             print(e.args[0])
@@ -241,7 +242,8 @@ class _Dba(object):
             cur.row_factory = sql.Row  # return data from cursor as dictionary
             cur.execute("SELECT * FROM Telemetry WHERE Device_id=:Device_id", {'Device_id': device_id})
             row = (cur.fetchall())[0]
-            return DAO.Telemetry(row['Device_id'], row['Time'], row['Rssi'], row['Heap'], row['Cycles'], row['Voltage'], row['Ip'], row['Mac'])
+            return DAO.Telemetry(row['Device_id'], row['Time'], row['Rssi'], row['Heap'], row['Cycles'], row['Voltage'],
+                                 row['Ip'], row['Mac'], row['Ssid'])
         except sql.Error as e:
             print(e.args[0])
             return None
