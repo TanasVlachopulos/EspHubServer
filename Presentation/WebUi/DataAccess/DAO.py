@@ -11,16 +11,6 @@ class Device(object):
     def __init__(self, id, name, provided_func):
         self.id = id
         self.name = name
-
-        # parse provided_function parameter if it is not a list
-        # devices can send data in simple string format
-        if not isinstance(provided_func, list):
-            provided_func = provided_func.replace('[', '')
-            provided_func = provided_func.replace(']', '')
-            provided_func = provided_func.replace(';', ',')
-            provided_func = provided_func.replace(' ', '')
-            provided_func = provided_func.split(',')
-
         self.provided_func = provided_func
 
     def __str__(self):

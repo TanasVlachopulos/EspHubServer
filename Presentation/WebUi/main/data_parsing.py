@@ -10,7 +10,9 @@ def get_actual_device_values(device_id):
 
     device_values = []
     if device:  # if device exists
+        print(device.provided_func)
         for func in device.provided_func:
+            print(func)
             records = db.get_record_from_device(device_id, value_type=func, limit=1)  # get newest record from db
             if len(records) > 0:
                 record_dict = records[0].__dict__  # select first from 1 length list and make dictionary

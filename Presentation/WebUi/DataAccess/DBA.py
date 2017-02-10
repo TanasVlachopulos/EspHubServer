@@ -73,7 +73,7 @@ class _Dba(object):
             cur.row_factory = sql.Row  # return data from cursor as dictionary
             cur.execute("SELECT * FROM WaitingDevices")
             rows = cur.fetchall()
-            return [DAO.Device(x['Device_id'], x['Name'], x['Provided_func']) for x in rows]
+            return [DAO.Device(x['Device_id'], x['Name'], x['Provided_func'].split(',')) for x in rows]
         except sql.Error as e:
             print(e.args[0])
             return []
@@ -92,7 +92,7 @@ class _Dba(object):
             cur.row_factory = sql.Row
             cur.execute("SELECT * FROM WaitingDevices WHERE Device_id=:Device_id", {'Device_id': device_id})
             row = (cur.fetchall())[0]  # get first record
-            return DAO.Device(row['Device_id'], row['Name'], row['Provided_func'])
+            return DAO.Device(row['Device_id'], row['Name'], row['Provided_func'].split(','))
         except sql.Error as e:
             print(e.args[0])
             return None
@@ -113,7 +113,7 @@ class _Dba(object):
             cur.row_factory = sql.Row  # return data from cursor as dictionary
             cur.execute("SELECT * FROM Devices")
             rows = cur.fetchall()
-            return [DAO.Device(x['Id'], x['Name'], x['Provided_func']) for x in rows]
+            return [DAO.Device(x['Id'], x['Name'], x['Provided_func'].split(',')) for x in rows]
         except sql.Error as e:
             print(e.args[0])
             return []
@@ -128,7 +128,7 @@ class _Dba(object):
             cur.row_factory = sql.Row
             cur.execute("SELECT * FROM Devices WHERE Id=:Id", {'Id': device_id})
             row = (cur.fetchall())[0]  # get first record
-            return DAO.Device(row['Id'], row['Name'], row['Provided_func'])
+            return DAO.Device(row['Id'], row['Name'], row['Provided_func'].split(','))
         except sql.Error as e:
             print(e.args[0])
             return None

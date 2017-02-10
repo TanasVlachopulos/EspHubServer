@@ -1,1 +1,1 @@
-__all__ = ["DataCollector", "MessageHandler", "DataSender"]
+__all__ = ["DataCollector", "MessageHandler", "DataSender", "EspDiscovery"]

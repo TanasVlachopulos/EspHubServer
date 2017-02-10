@@ -1,11 +1,18 @@
 # import datetime
 # from Presentation.WebUi.DataAccess import DAO
-
+import json
 import time
 
 from Presentation.WebUi.DeviceCom import DataCollector as collector
+from Presentation.WebUi.DeviceCom import EspDiscovery as discovery
 
 collector.DataCollector('test.db', 'config')
+
+msg = json.dumps({"name": "testServer", "ip": "192.168.1.1", "port": 1883})
+
+esp_discovery = discovery.EspDiscovery('192.168.1.255', 11114, msg, 5)
+esp_discovery.start()
+
 
 # tel = DAO.Telemetry('123', datetime.datetime.now(), '0', '0', '0', '0', '0', '0')
 # print(tel._time)

@@ -49,8 +49,16 @@ class DataCollector(object):
             reply = {"ip": "192.168.1.1", "port": 1883} # TODO replace with config
             self.mqtt.publish(str.format("esp_hub/device/{}/accept", data['id']), json.dumps(reply))
         else:
+            provided_func = data['ability']
+            provided_func = provided_func.replace('[', '')
+            provided_func = provided_func.replace(']', '')
+            provided_func = provided_func.replace(';', ',')
+            provided_func = provided_func.replace(' ', '')
+            provided_func = provided_func.replace('"', '')
+            provided_func = provided_func.replace("'", '')
+            provided_func = provided_func.split(',')
             # add device to waiting device list
-            self.db.add_waiting_device(DAO.Device(data['id'], data['name'], data['ability']))
+            self.db.add_waiting_device(DAO.Device(data['id'], data['name'], provided_func))
             print(self.db)
             # self.verify_device(data['id'], data['name'], data['ability'])
 
