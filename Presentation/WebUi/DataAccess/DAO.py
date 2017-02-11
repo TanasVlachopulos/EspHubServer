@@ -3,7 +3,7 @@
     -   maps database entities to object representation
 """
 import time
-
+import json
 import datetime
 
 
@@ -94,3 +94,31 @@ class Telemetry(object):
     def __str__(self):
         return str.format("{} | {} | {} | {} | {} | {} | {}",
                           self.device_id, self.time, self.rssi, self.heap, self.cycles, self.voltage, self.ip, self.mac, self.ssid)
+
+
+class Ability(object):
+    def __init__(self, name='', user_name='', io='', category='', unit='', default_value=0, desc=''):
+        self.name = name
+        self.user_name = user_name
+        self.io = io
+        self.category = category
+        self.unit = unit
+        self.default_value = default_value
+        self.desc = desc
+
+    def init_with_json(self, json_str):
+        obj = json.loads(json_str)
+        self.name = obj.get('name', '')
+        self.user_name = obj.get('user_name', '')
+        self.io = obj.get('io', '')
+        self.category = obj.get('category', '')
+        self.unit = obj.get('unit', '')
+        self.default_value = obj.get('default_value', 0)
+        self.desc = obj.get('desc', '')
+
+    def to_json(self):
+        json.dumps(self.__dict__)
+
+    def __str__(self):
+        return str.format("{} | {} | {} | {} | {} | {} | {}",
+                          self.name, self.user_name, self.io, self.category, self.unit, self.default_value, self.desc)

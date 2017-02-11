@@ -50,7 +50,9 @@ def waiting_devices(request):
     devices = db.get_waiting_devices()
 
     response = {'title': 'Waiting devices',
-                'devices': devices}
+                'devices': devices,
+                'input_abilities': ['sensor'],
+                'output_abilities': ['display', 'switch']}
     return render(request, 'main/waiting_devices.html', response)
 
 

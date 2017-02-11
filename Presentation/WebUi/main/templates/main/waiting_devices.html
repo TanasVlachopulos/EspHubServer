@@ -8,7 +8,7 @@
     {% if devices %}
         <ul class="collection">
             {% for device in devices %}
-                {% include "main/waiting_device_modal.html" with id=device.id name=device.name %}
+                {% include "main/waiting_device_modal.html" with id=device.id name=device.name abilities=device.provided_func input_abilities=input_abilities output_abilities=output_abilities %}
                 {% include "main/waiting_devices_line.html" with name=device.name id=device.id provided_func=device.provided_func|join:', ' %}
             {% endfor %}
         </ul>
@@ -22,6 +22,8 @@
         // init modal windows
         $(document).ready(function () {
             $('.modal').modal();
+            $('select').material_select();
+            Materialize.updateTextFields();
         });
 
         // remove device in modal window
@@ -29,6 +31,33 @@
         function removeDevice(deviceId) {
             var form = $("#input-" + deviceId).attr('value', true);
             $("#form-" + deviceId).submit();
+        }
+
+        // validate form and save device
+        function saveDevice(deviceId, abilitiesCount) {
+            var inputFields = [];
+            for (var index = 0; index < abilitiesCount; index++) {
+                inputFields.push($('#user-name-' + deviceId + '-' + index));
+                // inputFields.push($('#unit-' + deviceId + '-' + index));
+            }
+            inputFields.push($('#device-name-' + deviceId));
+
+            var form = $('#form-' + deviceId);
+            // check validity of input fields - names and units cant be empty
+            if (form[0].checkValidity()) {
+                inputFields.forEach(function (item, i) {
+                    item.attr('class', 'valid');
+                });
+                form.submit();
+            }
+            // is invalid
+            else {
+                // check each field
+                console.log('invalid');
+                inputFields.forEach(function (item, i) {
+                    (item.val() == '') ? item.attr('class', 'invalid') : item.attr('class', 'valid');
+                });
+            }
         }
     </script>
 
