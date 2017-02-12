@@ -105,6 +105,16 @@ def remove_device(request, device_id):
     return HttpResponseRedirect(reverse('main:index'))
 
 
+def output_action(request, device_id, ability):
+    if request.is_ajax() and request.POST['device'] == device_id:
+        sender = DataSender.DataSender()
+        sender.send_data_to_device(request.POST['device'], request.POST['ability'], request.POST['state'])
+        # sender.verify_device(device_id)
+        print('sending', request.POST['device'], request.POST['ability'], request.POST['state'])
+
+    return HttpResponse('ok')
+
+
 """ APIs """
 
 

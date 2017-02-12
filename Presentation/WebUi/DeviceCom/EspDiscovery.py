@@ -23,7 +23,7 @@ class EspDiscovery(threading.Thread):
     def run(self):
         while True:
             self.udp_soc.sendto(self.msg.encode('utf-8'), (self.address, self.port))
-            print("Request send ...")
+            print("Discovery request send ...")
             time.sleep(self.interval)
 
 

@@ -7,20 +7,28 @@
                     <td>{{ value.user_name }}</td>
                     <td style="text-align:right">
                         {% if value.category == 'switch' %}
-                        <!-- Switch -->
-                            <div class="switch switch-orange">
-                                <label>
-                                    <span style="color: #fff;">Off</span>
-                                    <input type="checkbox">
-                                    <span class="lever"></span>
-                                    <span style="color: #fff;">On</span>
-                                </label>
-                            </div>
+                            <!-- Switch -->
+                            {#                            action="{% url 'main:output_action' device_id value.name %}"#}
+                            <form>
+                                {% csrf_token %}
+                                <div class="switch switch-orange">
+                                    <label>
+                                        <span style="color: #fff;">Off</span>
+                                        <input type="checkbox" id="action-{{ value.name }}"
+                                               onchange='switchAjax("{% url 'main:output_action' device_id value.name %}", {{ device_id }}, "{{ value.name }}")'>
+                                        <span class="lever"></span>
+                                        <span style="color: #fff;">On</span>
+                                    </label>
+                                </div>
+                            </form>
                         {% elif value.category == 'display' %}
-                        <!-- Display -->
-                            <a class="waves-effect waves-light btn-flat"><i class="material-icons md-24 md-light">cast</i></a>
-                            {% elif value.category == 'button' %}
-                            <a class="waves-effect orange waves-light accent-2 btn">Push</a>
+                            <!-- Display -->
+                            <a class="waves-effect waves-light btn-flat"><i
+                                    class="material-icons md-24 md-light">cast</i></a>
+                        {% elif value.category == 'button' %}
+                            <a class="waves-effect orange waves-light accent-2 btn" id="action-{{ value.name }}"
+                               onmousedown='buttonAjax("{% url 'main:output_action' device_id value.name %}", {{ device_id }}, "{{ value.name }}", "push")'
+                               onmouseup='buttonAjax("{% url 'main:output_action' device_id value.name %}", {{ device_id }}, "{{ value.name }}", "release")'>Push</a>
                         {% endif %}
                     </td>
                 </tr>

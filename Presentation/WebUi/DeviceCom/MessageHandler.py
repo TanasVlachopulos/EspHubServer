@@ -32,7 +32,7 @@ class _MessageHandler(object):
         self.client.loop_start()
 
     @staticmethod
-    def _on_connect_callback(userdata, rc):
+    def _on_connect_callback(client, userdata, flags, rc):
         if rc == 0:
             print("Succesfully connected to broker")
             # self.is_connected = True

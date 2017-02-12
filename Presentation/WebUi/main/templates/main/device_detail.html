@@ -39,6 +39,8 @@
     {% load static %}
     <script type="text/javascript" src="{% static 'main/js/updateDeviceStatus.js' %}"></script>
     <script type="text/javascript" src="{% static 'main/js/updateDeviceValues.js' %}"></script>
+    <script type="text/javascript" src="{% static 'main/js/outputActionsAjax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'main/js/jquery.cookie.js' %}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             updateDeviceStatus("{% url 'main:telemetry_api' device.id %}", {{ device_status_interval }});
