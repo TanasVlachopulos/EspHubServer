@@ -19,7 +19,7 @@ class _MessageHandler(object):
     def _connect(self):
         self.client = mqtt.Client()
         self.client.on_connect = self._on_connect_callback
-        self.client.on_disconnect = self._on_disconnect_callback
+        # self.client.on_disconnect = self._on_disconnect_callback
 
         try:
             self.client.connect(self.broker_address, self.broker_port, self.keep_alive)
@@ -32,7 +32,7 @@ class _MessageHandler(object):
         self.client.loop_start()
 
     @staticmethod
-    def _on_connect_callback(client, userdata, rc):
+    def _on_connect_callback(userdata, rc):
         if rc == 0:
             print("Succesfully connected to broker")
             # self.is_connected = True

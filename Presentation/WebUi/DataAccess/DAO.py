@@ -14,7 +14,7 @@ class Device(object):
         self.provided_func = provided_func
 
     def __str__(self):
-        return '| ' + self.id + ' | ' + self.name + ' | ' + ';'.join(self.provided_func) + ' |'
+        return '| ' + self.id + ' | ' + self.name + ' | ' + self.provided_func + ' |'
 
     def to_list(self):
         return [self.id, self.name, self.provided_func]

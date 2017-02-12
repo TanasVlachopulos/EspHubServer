@@ -128,7 +128,7 @@ class _Dba(object):
             cur.row_factory = sql.Row
             cur.execute("SELECT * FROM Devices WHERE Id=:Id", {'Id': device_id})
             row = (cur.fetchall())[0]  # get first record
-            return DAO.Device(row['Id'], row['Name'], row['Provided_func'].split(','))
+            return DAO.Device(row['Id'], row['Name'], row['Provided_func'])
         except sql.Error as e:
             print(e.args[0])
             return None
@@ -143,7 +143,7 @@ class _Dba(object):
         try:
             cur = con.cursor()
             cur.execute("INSERT INTO Devices(Id, Name, Provided_func) VALUES (:Id, :Name, :Provided_func)",
-                        {'Id': device.id, 'Name': device.name, 'Provided_func': ','.join(device.provided_func)})
+                        {'Id': device.id, 'Name': device.name, 'Provided_func': device.provided_func})
             con.commit()
         except sql.Error as e:
             print(e.args[0])
