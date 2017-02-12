@@ -34,7 +34,7 @@ class Record(object):
             self._time = time
         else:
             self._time = time.timestamp()
-        self.value_type = value_type
+        self.name = value_type
         self.value = value
 
     @property

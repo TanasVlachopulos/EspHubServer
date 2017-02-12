@@ -16,7 +16,6 @@ function switchAjax(url, deviceId, ability) {
 }
 
 function buttonAjax(url, deviceId, ability, state) {
-    console.log(state);
     if (setCsrf()) {
         $.ajax({
             type: 'POST',
@@ -25,8 +24,11 @@ function buttonAjax(url, deviceId, ability, state) {
                 'device': deviceId,
                 'ability': ability,
                 'state': state
+            },
+            success: function (response) {
+                console.log(ability + ' status send');
             }
-        })
+        });
     }
 }
 
