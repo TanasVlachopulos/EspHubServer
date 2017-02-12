@@ -13,7 +13,7 @@ from DeviceCom import DataSender
 # TODO maximalizovat predavani hodnot do templatu - snizit pocet leteraru v templatech
 
 input_abilities = ['sensor']  # TODO replace with config
-output_abilities = ['display', 'switch']  # TODO replace with config
+output_abilities = ['display', 'switch', 'button']  # TODO replace with config
 
 
 def index(request):
@@ -38,6 +38,7 @@ def device_detail(request, device_id):
 
     actual_in_values = get_actual_device_values(device_id, io_type='in')
     actual_out_values = get_actual_device_values(device_id, io_type='out')
+    print(actual_out_values)
 
     response = {'device': device,
                 'values': records,

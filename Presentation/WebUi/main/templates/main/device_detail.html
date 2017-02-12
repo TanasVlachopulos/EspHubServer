@@ -20,8 +20,17 @@
     {% include "main/device_detail_modals.html" with id=device.id %}
 
     <div class="row">
-        {% include 'main/device_detail_values_card.html' with actual_values=actual_values %}
-        {% include 'main/device_detail_status_card.html' %}
+        <div class="col s12 s8 m8">
+            {% if actual_values %}
+                {% include 'main/device_detail_values_card.html' with actual_values=actual_values %}
+            {% endif %}
+            {% if actual_out_values %}
+                {% include 'main/device_detail_control_card.html' with actual_out_values=actual_out_values device_id=device.id %}
+            {% endif %}
+        </div>
+        <div class="col s12 s4 m4">
+            {% include 'main/device_detail_status_card.html' %}
+        </div>
     </div>
 
 

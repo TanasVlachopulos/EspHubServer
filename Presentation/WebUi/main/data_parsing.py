@@ -34,6 +34,8 @@ def get_actual_device_values(device_id, io_type='all'):
                 record_dict['category'] = ability['category']
                 record_dict['io'] = ability['io']
                 record_dict['desc'] = ability['desc']
+                record_dict['user_name'] = ability['user_name']
+                record_dict['name'] = ability['name']
                 device_values.append(record_dict)
 
     return device_values
