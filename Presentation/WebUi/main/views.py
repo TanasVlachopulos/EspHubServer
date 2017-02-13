@@ -10,13 +10,11 @@ from DeviceCom import DataSender
 from Config import Config
 
 # TODO handle 404 page not found error
-# TODO replace test.db with config class
 # TODO maximalizovat predavani hodnot do templatu - snizit pocet leteraru v templatech
 
-input_abilities = ['sensor']  # TODO replace with config
-output_abilities = ['display', 'switch', 'button']  # TODO replace with config
-
-c = Config.Config().get_config()
+conf = Config.Config().get_config()
+input_abilities = conf.get('db', 'input_abilities').split(',')
+output_abilities = conf.get('db', 'output_abilities').split(',')
 
 
 def index(request):
@@ -33,7 +31,7 @@ def index(request):
 
 
 def device_detail(request, device_id):
-    db = DBA.Dba("test.db")
+    db = DBA.Dba(conf.get('db', 'path'))
     device = db.get_device(device_id)
     # device = Device.get(device_id)
     records = db.get_record_from_device(device_id, limit=10)
@@ -54,7 +52,7 @@ def device_detail(request, device_id):
 
 
 def waiting_devices(request):
-    db = DBA.Dba("test.db")
+    db = DBA.Dba(conf.get('db', 'path'))
     devices = db.get_waiting_devices()
 
     response = {'title': 'Waiting devices',
@@ -69,7 +67,7 @@ def waiting_devices(request):
 
 
 def verify_device(request, device_id):
-    db = DBA.Dba("test.db")
+    db = DBA.Dba(conf.get('db', 'path'))
     device = db.get_waiting_device(device_id)  # get waiting device for transfer to permanent devices table
     db.remove_waiting_device(device_id)  # remove device from waiting devices table
 
@@ -100,7 +98,7 @@ def verify_device(request, device_id):
 
 
 def remove_device(request, device_id):
-    db = DBA.Dba("test.db")
+    db = DBA.Dba(conf.get('db', 'path'))
     if request.POST['remove-device'] == 'true':
         print('true')
         db.remove_device(device_id)
@@ -122,7 +120,7 @@ def output_action(request, device_id, ability):
 
 
 def waiting_devices_api(request):
-    db = DBA.Dba("test.db")
+    db = DBA.Dba(conf.get('db', 'path'))
     devices = db.get_waiting_devices()
 
     response = json.dumps([device.__dict__ for device in devices])
@@ -130,7 +128,7 @@ def waiting_devices_api(request):
 
 
 def telemetry_api(request, device_id):
-    db = DBA.Dba('test.db')
+    db = DBA.Dba(conf.get('db', 'path'))
     telemetry = db.get_telemetry(device_id)
 
     if telemetry:

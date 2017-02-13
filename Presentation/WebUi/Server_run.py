@@ -5,14 +5,21 @@ import time
 
 from Presentation.WebUi.DeviceCom import DataCollector as collector
 from Presentation.WebUi.DeviceCom import EspDiscovery as discovery
+from Presentation.WebUi.Config import Config
 
-collector.DataCollector('test.db', 'config')
+conf = Config.Config().get_config()
 
-msg = json.dumps({"name": "testServer", "ip": "192.168.1.1", "port": 1883})
+collector.DataCollector(conf.get('db', 'path'), 'config')
 
-esp_discovery = discovery.EspDiscovery('192.168.1.255', 11114, msg, 5)
+msg = json.dumps({"name": conf.get('mqtt', 'server_name'),
+                  "ip": conf.get('mqtt', 'ip'),
+                  "port": conf.getint('mqtt', 'port')})
+
+esp_discovery = discovery.EspDiscovery(conf.get('discovery', 'broadcast'),
+                                       conf.getint('discovery', 'port'),
+                                       msg,
+                                       conf.getint('discovery', 'interval'))
 esp_discovery.start()
-
 
 # tel = DAO.Telemetry('123', datetime.datetime.now(), '0', '0', '0', '0', '0', '0')
 # print(tel._time)

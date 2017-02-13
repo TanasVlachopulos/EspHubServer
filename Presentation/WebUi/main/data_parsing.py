@@ -2,10 +2,13 @@ import json
 
 from DataAccess import DBA, DAO
 from DeviceCom import DataSender
+from Config import Config
+
+conf = Config.Config().get_config()
 
 
 def get_actual_device_values(device_id, io_type='all'):
-    db = DBA.Dba("test.db")
+    db = DBA.Dba(conf.get('db', 'path'))
     device = db.get_device(device_id)
 
     device_values = []
@@ -13,7 +16,7 @@ def get_actual_device_values(device_id, io_type='all'):
         try:
             abilities = json.loads(device.provided_func)
         except json.JSONDecodeError as e:
-            print("Json decode error")  # TODO replace with log
+            print(conf.get('msg', 'decode_error'))
             abilities = []
 
         for ability in abilities:

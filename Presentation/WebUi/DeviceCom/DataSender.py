@@ -1,13 +1,16 @@
 from .MessageHandler import MessageHandler
 import json
+from Config import Config
+
+conf = Config.Config().get_config()
 
 
 class _DataSender(object):
     def __init__(self):
-        self.mqtt = MessageHandler('192.168.1.1')  # TODO replace with config
+        self.mqtt = MessageHandler(conf.get('mqtt', 'ip'), conf.getint('mqtt', 'port'))
 
     def verify_device(self, device_id):
-        reply = {"ip": "192.168.1.1", "port": 1883} # TODO replace with config
+        reply = {"ip": conf.get('mqtt', 'ip'), "port": conf.getint('mqtt', 'port')}
         self.mqtt.publish(str.format("esp_hub/device/{}/accept", device_id), json.dumps(reply), qos=1)
 
     def send_data_to_device(self, device_id, value_type, value, default_value=0):
