@@ -33,7 +33,7 @@
         </div>
     </div>
 
-
+    {% include 'main/device_detail_tabs.html' %}
     {% include "main/data_table.html" with rows=values %}
 
     {% load static %}
@@ -46,6 +46,7 @@
             updateDeviceStatus("{% url 'main:telemetry_api' device.id %}", {{ device_status_interval }});
             updateDeviceValues("{% url 'main:device_actual_values_api' device.id %}", {{ device_values_interval }});
             $('.modal').modal(); // init modal windows
+            $('ul.tabs').tabs(); // init tabs
         });
     </script>
 {% endblock %}

@@ -7,6 +7,7 @@ from datetime import datetime
 from .data_parsing import *
 from DataAccess import DBA, DAO
 from DeviceCom import DataSender
+from Config import Config
 
 # TODO handle 404 page not found error
 # TODO replace test.db with config class
@@ -14,6 +15,8 @@ from DeviceCom import DataSender
 
 input_abilities = ['sensor']  # TODO replace with config
 output_abilities = ['display', 'switch', 'button']  # TODO replace with config
+
+c = Config.Config().get_config()
 
 
 def index(request):

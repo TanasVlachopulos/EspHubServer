@@ -205,7 +205,7 @@ class _Dba(object):
         try:
             cur = con.cursor()
             cur.execute("INSERT INTO Records(Device_id, Time, Type, Value) VALUES(:Device_id, :Time, :Type, :Value)",
-                        {'Device_id': record.id, 'Time': record.timestamp, 'Type': record.value_type, 'Value': record.value})
+                        {'Device_id': record.id, 'Time': record.timestamp, 'Type': record.name, 'Value': record.value})
             con.commit()
         except sql.Error as e:
             print(e.args[0])
