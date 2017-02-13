@@ -20,7 +20,7 @@
     {% include "main/device_detail_modals.html" with id=device.id %}
 
     <div class="row">
-        <div class="col s12 s8 m8">
+        <div class="col s12 m8 l8">
             {% if actual_values %}
                 {% include 'main/device_detail_values_card.html' with actual_values=actual_values %}
             {% endif %}
@@ -28,13 +28,25 @@
                 {% include 'main/device_detail_control_card.html' with actual_out_values=actual_out_values device_id=device.id %}
             {% endif %}
         </div>
-        <div class="col s12 s4 m4">
+        <div class="col s12 m4 l4">
             {% include 'main/device_detail_status_card.html' %}
         </div>
     </div>
 
-    {% include 'main/device_detail_tabs.html' %}
-    {% include "main/data_table.html" with rows=values %}
+    <div class="row">
+        {% include 'main/device_detail_tabs.html' %}
+        <div id="test-swipe-1" class="col s12  grey lighten-4">
+            {% include "main/data_table.html" with rows=values %}
+        </div>
+        <div id="test-swipe-2" class="col s12 grey lighten-4">
+            {% include "main/data_table.html" with rows=values %}
+
+        </div>
+        <div id="test-swipe-3" class="col s12 grey lighten-4">
+            {% include "main/data_table.html" with rows=values %}
+
+        </div>
+    </div>
 
     {% load static %}
     <script type="text/javascript" src="{% static 'main/js/updateDeviceStatus.js' %}"></script>
@@ -46,7 +58,7 @@
             updateDeviceStatus("{% url 'main:telemetry_api' device.id %}", {{ device_status_interval }});
             updateDeviceValues("{% url 'main:device_actual_values_api' device.id %}", {{ device_values_interval }});
             $('.modal').modal(); // init modal windows
-            $('ul.tabs').tabs(); // init tabs
+            $('ul.tabs').tabs({'swipeable': false}); // init tabs
         });
     </script>
 {% endblock %}

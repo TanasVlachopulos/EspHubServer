@@ -46,7 +46,7 @@ def device_detail(request, device_id):
                 'actual_values': actual_in_values,
                 'actual_out_values': actual_out_values,
                 'device_status_interval': 30000,  # status refresh interval in seconds
-                'device_values_interval': 5000,  # values refresh interval in seconds
+                'device_values_interval': 3000,  # values refresh interval in seconds
                 }
     return render(request, 'main/device_detail.html', response)
 
